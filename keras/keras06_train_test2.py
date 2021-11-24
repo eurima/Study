@@ -13,12 +13,12 @@ div_num2 = 10-div_num1+1
 x_train = x[:div_num1]
 y_train = y[:div_num1]
 
-print(x_train) #[1,2,3,4,5,6,7,8]
+# print(x_train) #[1,2,3,4,5,6,7,8]
 
 x_test = x[:-(div_num2):-1]
 y_test = y[:-(div_num2):-1]
 
-print(x_test) #[10,9]
+# print(x_test) #[10,9]
 
 #2. 모델
 no = [250,200,150,100,200,150,100,50,10]
@@ -45,8 +45,12 @@ res =[11]
 result = model.predict(res)
 print(f'{res}의 예측값 :',result)
 
-print(x_train)
-print(x_test) 
+print("x_train",x_train)
+print("y_train",y_train)
+
+print("x_test",x_test) 
+print("y_test",y_test) 
+
 
 '''
 Loss =  1.1095835361629725e-10
