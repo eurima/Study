@@ -8,15 +8,15 @@ x = np.array([1,2,3,4,5,6,7,8,9,10])
 y = np.array([1,2,3,4,5,6,7,8,9,10])
 #test와 train을 8:2 으로 분리하시오
 div_num1 = 8 
-div_num2 = 10-div_num1
+div_num2 = 10-div_num1+1
 
 x_train = x[:div_num1]
 y_train = y[:div_num1]
 
 print(x_train) #[1,2,3,4,5,6,7,8]
 
-x_test = x[:-(div_num2+1):-1]
-y_test = y[:-(div_num2+1):-1]
+x_test = x[:-(div_num2):-1]
+y_test = y[:-(div_num2):-1]
 
 print(x_test) #[10,9]
 
