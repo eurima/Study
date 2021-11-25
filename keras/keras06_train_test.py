@@ -11,7 +11,7 @@ y_test = np.array([8,9,10])
 
 #2. 모델
 no = [200,150,100,50,100,150,100,50,10]
-model = Sequential() #Sequential 클래스의 인스턴스
+model = Sequential() 
 model.add(Dense(no[0], input_dim = 1)) 
 model.add(Dense(no[1])) 
 model.add(Dense(no[2]))
