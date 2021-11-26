@@ -2,11 +2,6 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 import numpy as np
 
-# print(x.shape) 506,13
-# print(y.shape) 506,
-
-# print(dataset.feature_names)
-# print(dataset.DESCR)
 
 from sklearn.metrics import r2_score
 
@@ -19,9 +14,8 @@ y = dataset.target
 
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x, y, 
-         train_size = 0.9, shuffle = True, random_state = 66) 
-
-[50, 20, 10, 50, 30, 15, 10, 5, 2]
+         train_size = 0.7, shuffle = True, random_state = 66) #랜덤난수 고정
+#[50, 20, 10, 50, 30, 15, 10, 5, 2]
 deep_len = [100,80,60,40,50,80,70,60,50,40,30,20,10,5,4,2]
 model = Sequential() 
 model.add(Dense(deep_len[0], input_dim = 13)) 
@@ -45,7 +39,7 @@ model.add(Dense(1))
 #3. 컴파일, 훈련
 epoch = 1000
 model.compile(loss = 'mse', optimizer = 'adam')
-model.fit(x_train, y_train, epochs = epoch, batch_size =1,validation_split=0.1)
+model.fit(x_train, y_train, epochs = epoch, batch_size =1)
 
 #4 평가예측
 loss = model.evaluate(x_test,y_test)
@@ -58,25 +52,23 @@ print(deep_len)
 print("epochs :",epoch)
 
 '''
-316/316 [==============================] - 0s 840us/step - loss: 27.4460 - val_loss: 30.6392
-3/3 [==============================] - 0s 0s/step - loss: 19.2068
-loss :  19.206785202026367
-r2 :  0.7837500797399244
+loss :  20.52109718322754
+r2 :  0.7516119657162676
+[500, 200, 100, 200, 10]
+
+loss :  18.046527862548828
+r2 :  0.7815642570169652
+[50, 20, 10, 50, 30, 15, 10, 5, 2]
+epochs = 2000
+
+loss :  18.024595260620117
+r2 :  0.7818297266155326
+[50, 20, 10, 50, 30, 15, 10, 5, 2]
+epochs : 4000
+
+loss :  17.256607055664062   
+r2 :  0.7911254681168102      <---------------------------
 [100, 80, 60, 40, 50, 80, 70, 60, 50, 40, 30, 20, 10, 5, 4, 2]
 epochs : 1000
-
-validation_split=0.23
-train_size = 0.8125
-
-Epoch 1000/1000
-409/409 [==============================] - 0s 756us/step - loss: 26.3723 - val_loss: 22.5501
-2/2 [==============================] - 0s 0s/step - loss: 21.3376
-loss :  21.33759117126465
-r2 :  0.7770126366213838
-[100, 80, 60, 40, 50, 80, 70, 60, 50, 40, 30, 20, 10, 5, 4, 2]
-epochs : 1000
-
-validation_split=0.1
-train_size = 0.9
 
 '''
