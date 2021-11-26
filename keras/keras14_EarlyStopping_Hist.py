@@ -19,5 +19,5 @@ else:
 293번째 val_loss는  33.0962028503418
 가장 낮은 val_loss는 243 번째 epoch 입니다
 Early Stop 구간의 val_loss가 가장 낮은 값은 아닙니다        
-Early Stop 에서 patience 앞의 val_loss가 가장 낮은 값 입니다
+Early Stop 에서 patience 앞의 val_loss가 가장 낮은 값 입니다.
 '''
