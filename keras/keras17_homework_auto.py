@@ -87,7 +87,7 @@ patience_num = 50
 es = EarlyStopping(monitor='val_loss', patience=patience_num, mode = 'auto', verbose=1, restore_best_weights=True)
 start = time.time()
 
-model.fit(x_train, y_train, epochs = epoch, batch_size =10, validation_split=0.2,callbacks=[es])
+model.fit(x_train, y_train, epochs = epoch, validation_split=0.2,callbacks=[es])#batch_size =10, 
 end = time.time() - start
 print('시간 : ', round(end,2) ,'초')
 
@@ -112,4 +112,14 @@ loss :  0.665805995464325
 accuracy :  0.7202998399734497
 batch_size =100
 
+Epoch 166/10000
+37185/37185 [==============================] - 36s 958us/step - loss: 0.6827 - accuracy: 0.7116 - val_loss: 0.6844 - val_accuracy: 0.7128
+Restoring model weights from the end of the best epoch.
+Epoch 00166: early stopping
+시간 :  5986.25 초
+batch_size =10
+
+
+https://keras.io/api/models/model_training_apis/
+batch_size: Integer or None. Number of samples per gradient update. If unspecified, batch_size will default to 32.
 '''
