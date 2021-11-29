@@ -13,8 +13,8 @@ from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x, y, 
          train_size = 0.8, shuffle = True, random_state = 66) 
 
+deep_len = [200,150,100,80,70,60,50,40,30,20,10,5,4,3,2,2]
 
-deep_len = [100,80,60,40,50,80,70,60,50,40,30,20,10,5,4,2]
 model = Sequential() 
 model.add(Dense(deep_len[0], input_dim = 10)) 
 model.add(Dense(deep_len[1])) 
@@ -24,14 +24,14 @@ model.add(Dense(deep_len[4]))
 model.add(Dense(deep_len[5])) 
 model.add(Dense(deep_len[6])) 
 model.add(Dense(deep_len[7])) 
-model.add(Dense(deep_len[8])) 
-model.add(Dense(deep_len[9])) 
-model.add(Dense(deep_len[10])) 
-model.add(Dense(deep_len[11])) 
-model.add(Dense(deep_len[12])) 
-model.add(Dense(deep_len[13])) 
-model.add(Dense(deep_len[14])) 
-model.add(Dense(deep_len[15])) 
+# model.add(Dense(deep_len[8])) 
+# model.add(Dense(deep_len[9])) 
+# model.add(Dense(deep_len[10])) 
+# model.add(Dense(deep_len[11])) 
+# model.add(Dense(deep_len[12])) 
+# model.add(Dense(deep_len[13])) 
+# model.add(Dense(deep_len[14])) 
+# model.add(Dense(deep_len[15])) 
 model.add(Dense(1)) 
 
 #3. 컴파일, 훈련
@@ -53,7 +53,7 @@ print("loss : ",loss)
 
 y_predict = model.predict(x_test)
 r2 = r2_score(y_test,y_predict)
-print("r2 : ",r2)
+print("R2 : ",r2)
 print(deep_len)
 print("epochs :",epoch)
 
@@ -67,6 +67,13 @@ loss :  3334.923828125
 r2 :  0.4861474526091143
 [100, 80, 60, 40, 50, 80, 70, 60, 50, 40, 30, 20, 10, 5, 4, 2]
 epochs : 10000
+
+Epoch 00081: early stopping
+시간 :  16.26 초
+3/3 [==============================] - 0s 957us/step - loss: 3355.3083
+loss :  3355.308349609375
+R2 :  0.48300660083431635
+[200, 150, 100, 80, 70, 60, 50, 40, 30
 
 '''
 

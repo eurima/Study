@@ -84,7 +84,6 @@ val_loss: 33.0962
 Early Stop 구간의 val_loss가 가장 낮은 값은 아닙니다        
 Early Stop 에서 patience 앞의 val_loss가 가장 낮은 값 입니다!
 '''
-
 '''
 https://github.com/keras-team/keras/blob/v2.7.0/keras/callbacks.py#L1710-L1855
 
