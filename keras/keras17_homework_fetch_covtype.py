@@ -67,6 +67,7 @@ print("epochs :",epoch)
 # print(result)
 # print(y_test[:7])
 '''
+
 3719/3719 [==============================] - 5s 1ms/step - loss: 0.6734 - accuracy: 0.7159 - val_loss: 0.6758 - val_accuracy: 0.7121
 Restoring model weights from the end of the best epoch.
 Epoch 00239: early stopping
