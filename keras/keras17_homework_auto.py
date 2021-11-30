@@ -119,6 +119,16 @@ Epoch 00166: early stopping
 시간 :  5986.25 초
 batch_size =10
 
+Epoch 191/10000
+11621/11621 [==============================] - 12s 1ms/step - loss: 0.6773 - accuracy: 0.7136 - val_loss: 0.6772 - val_accuracy: 0.7140    
+Restoring model weights from the end of the best epoch.
+Epoch 00191: early stopping
+시간 :  2413.25 초
+3632/3632 [==============================] - 2s 499us/step - loss: 0.6676 - accuracy: 0.7203
+loss :  0.667597234249115
+accuracy :  0.7202568054199219
+batch_size = default
+
 
 https://keras.io/api/models/model_training_apis/
 batch_size: Integer or None. Number of samples per gradient update. If unspecified, batch_size will default to 32.
