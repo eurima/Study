@@ -89,7 +89,7 @@ test_flie = test_flie.drop(['datetime'], axis =1) #
 # plt.show()  ========> 데이터 분포가 넓다면 로그를 씌우자 ex) 0 ~ 1000 : -> 1 ~ 3 ※log0은 에러! 무조건 로그변환 전 1을 더해준다
 
 # 로그변환
-y = np.log1p(y) #----------> 로그변환 하면서 +1 해줌
+y = np.log1p(y) #----------> 로그변환 하면서 +1 해줌.
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, 
          train_size = 0.8, shuffle = True, random_state = 66) #

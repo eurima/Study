@@ -77,5 +77,5 @@ submission['datetime'] = test_flie['datetime']
 
 
 
-# print(submission[:10])
+# print(submission[:10]).
 submission.to_csv(path+"sampleHR.csv", index = False)

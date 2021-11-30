@@ -127,7 +127,7 @@ epochs : 10000
 .
 '''
 
-############### 제출용
+############### 제출용.
 result = model.predict(test_flie)
 submission['count'] = result
 
