@@ -66,7 +66,7 @@ submission = pd.DataFrame({'id' : y_test.id, 'count' : pred})
 submission.to_csv(path + '000000000.csv', index=False)
 print('r2 real score :', r2_score(y_test['count'], pred))
 
-############### 제출용
+############### 제출용.
 # result = model.predict(test_flie)
 result = submission['count']
 test_flie = pd.read_csv(path + "test.csv") 

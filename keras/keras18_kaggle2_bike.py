@@ -83,7 +83,7 @@ x = train.drop(['datetime','casual','registered','count'], axis =1) #
 test_flie = test_flie.drop(['datetime'], axis =1) #
 # print(x.columns) 
 # print(y_train.shape) 10886,
-# print(x.shape) #10886, 8
+# print(x.shape) #10886, 8.
 
 # plt.plot(y)
 # plt.show()  ========> 데이터 분포가 넓다면 로그를 씌우자 ex) 0 ~ 1000 : -> 1 ~ 3 ※log0은 에러! 무조건 로그변환 전 1을 더해준다

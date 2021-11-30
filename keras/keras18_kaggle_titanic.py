@@ -38,7 +38,7 @@ Data columns (total 11 columns):
  10  Embarked  889 non-null    object
 dtypes: float64(2), int64(4), object(5)
 
-print(train.describe())  ====> object 는 안나온다
+print(train.describe())  ====> object 는 안나온다.
 
          Survived      Pclass         Age       SibSp       Parch        Fare
 count  891.000000  891.000000  714.000000  891.000000  891.000000  891.000000
