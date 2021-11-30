@@ -14,7 +14,7 @@ gender_submission = pd.read_csv(path+"gender_submission.csv", index_col = 0, hea
 # print(train.shape) #(891,11)
 # print(test.shape) #(418,10)
 # print(gender_submission.shape) #(418,1)
-# print(gender_submission)
+# print(gender_submission).
 '''
      PassengerId  Survived
 0            892         0
