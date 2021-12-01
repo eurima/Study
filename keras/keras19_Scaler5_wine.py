@@ -1,32 +1,18 @@
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_wine
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 import numpy as np
 import time
 
 #1 데이터
-dataset  = load_iris()
+dataset  = load_wine()
 # print(dataset)
 # print(dataset.DESCR) 
-'''
-    :Number of Instances: 150 (50 in each of three classes)
-    :Number of Attributes: 4 numeric, predictive attributes and the class
-    :Attribute Information:
-        - sepal length in cm
-        - sepal width in cm
-        - petal length in cm
-        - petal width in cm
-        - class:
-                - Iris-Setosa
-                - Iris-Versicolour
-                - Iris-Virginica
-                
-x=(150,4), y= (150,1)
-'''
+
 x = dataset.data
 y = dataset.target #===== sklearn에서만 제공!!
-# print(x.shape, y.shape) #(150,4) (150,)
-# print(np.unique(y)) #----> [0, 1,2] : 배열의 고유값을 찾아준다 (라벨값이 어떤것이 있는가) len(np.unique(y))
+# print(x.shape, y.shape) 
+# print(np.unique(y)) #---->  배열의 고유값을 찾아준다 (라벨값이 어떤것이 있는가) len(np.unique(y))
 
 from tensorflow.keras.utils import to_categorical
 # one_hot = to_categorical(y,num_classes=len(np.unique(y)))
@@ -34,7 +20,17 @@ y = to_categorical(y) #<=============== class 개수대로 자동으로 분류 �
 
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x, y, 
-         train_size = 0.8, shuffle = True, random_state = 66) #455.2 /114
+         train_size = 0.8, shuffle = True, random_state = 66) #
+
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler, MaxAbsScaler
+# scaler = MinMaxScaler()
+# scaler = StandardScaler()
+# scaler = RobustScaler()
+scaler = MaxAbsScaler()
+scaler.fit(x_train)
+scaler.transform(x_train)
+scaler.transform(x_test)
+
 #2 모델구성
 #        
 deep_len = [100, 50, 30, 20, 100, 50, 30, 40, 50, 40, 30, 20, 10, 5, 4, 2]
@@ -70,18 +66,6 @@ es = EarlyStopping(monitor='val_loss', patience=patience_num, mode = 'auto', ver
 # 나중에는 monitor='accuracy' ,mode 가 헷갈리면 'auto'로 잡는다
 start = time.time()
 
-from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler, MaxAbsScaler
-scaler = MinMaxScaler()
-# scaler = StandardScaler()
-# scaler = RobustScaler()
-# scaler = MaxAbsScaler()
-scaler.fit(x_train)
-scaler.transform(x_train)
-scaler.transform(x_test)
-
-
-
-
 model.fit(x_train, y_train, epochs = epoch, batch_size =1,validation_split=0.2,callbacks=[es])
 end = time.time() - start
 print('시간 : ', round(end,2) ,'초')
@@ -95,10 +79,51 @@ print("accuracy : ",loss[1])
 #===========> 더욱 중요한것은 val_loss 이다!!
 y_predict = model.predict(x_test)
 print("epochs :",epoch)
-result = y_predict[:7]
-print(result)
-print(y_test[:7])
+
 '''
+Normal
+Epoch 00277: early stopping
+시간 :  30.65 초
+2/2 [==============================] - 0s 2ms/step - loss: 0.2468 - accuracy: 0.8889
+loss :  0.24677377939224243
+accuracy :  0.8888888955116272
+
+MinMaxScaler
+Epoch 00408: early stopping
+시간 :  46.06 초
+2/2 [==============================] - 0s 974us/step - loss: 0.1322 - accuracy: 0.9444
+loss :  0.13221938908100128
+accuracy :  0.9444444179534912
+
+
+StandardScaler
+Epoch 00225: early stopping
+시간 :  25.25 초
+2/2 [==============================] - 0s 997us/step - loss: 0.1937 - accuracy: 0.9444
+loss :  0.19366972148418427
+accuracy :  0.9444444179534912
+
+
+RobustScaler
+Epoch 00308: early stopping
+시간 :  33.81 초
+2/2 [==============================] - 0s 969us/step - loss: 0.1779 - accuracy: 0.9444
+loss :  0.17789506912231445
+accuracy :  0.9444444179534912
+
+
+
+MaxAbsScaler
+Epoch 00154: early stopping
+시간 :  17.33 초
+2/2 [==============================] - 0s 997us/step - loss: 0.1858 - accuracy: 0.9167
+loss :  0.18576472997665405
+accuracy :  0.9166666865348816
+epochs : 10000
+
+
+
+
 
 
 '''

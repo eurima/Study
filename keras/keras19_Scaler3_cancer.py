@@ -1,45 +1,29 @@
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_breast_cancer
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
-import numpy as np
+# from sklearn.metrics import r2_score
 import time
 
-#1 데이터
-dataset  = load_iris()
+dataset  = load_breast_cancer()
 # print(dataset)
-# print(dataset.DESCR) 
-'''
-    :Number of Instances: 150 (50 in each of three classes)
-    :Number of Attributes: 4 numeric, predictive attributes and the class
-    :Attribute Information:
-        - sepal length in cm
-        - sepal width in cm
-        - petal length in cm
-        - petal width in cm
-        - class:
-                - Iris-Setosa
-                - Iris-Versicolour
-                - Iris-Virginica
-                
-x=(150,4), y= (150,1)
-'''
-x = dataset.data
-y = dataset.target #===== sklearn에서만 제공!!
-# print(x.shape, y.shape) #(150,4) (150,)
-# print(np.unique(y)) #----> [0, 1,2] : 배열의 고유값을 찾아준다 (라벨값이 어떤것이 있는가) len(np.unique(y))
+# print(dataset.DESCR)
+# print(dataset.feature_name)
 
-from tensorflow.keras.utils import to_categorical
-# one_hot = to_categorical(y,num_classes=len(np.unique(y)))
-y = to_categorical(y) #<=============== class 개수대로 자동으로 분류 해 준다!!! /// 간단!!
+x = dataset.data
+y = dataset.target
+
+# print(x.shape, y.shape) #(569,30) (569,)
+# print(np.unique(y)) #----> [0, 1] : 배열의 고유값을 찾아준다 (라벨값이 어떤것이 있는가)
 
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x, y, 
          train_size = 0.8, shuffle = True, random_state = 66) #455.2 /114
+
 #2 모델구성
-#        
+#          [100, 50, 30, 20, 10, 20, 30, 40, 50, 40, 30, 20, 10, 5, 4, 2]
 deep_len = [100, 50, 30, 20, 100, 50, 30, 40, 50, 40, 30, 20, 10, 5, 4, 2]
 model = Sequential()
-model.add(Dense(deep_len[0], activation = 'linear', input_dim =x.shape[1]))
+model.add(Dense(deep_len[0], activation = 'linear', input_dim = 30)) 
 model.add(Dense(deep_len[1], )) # ===> 디폴트 값은 linear이고 sigmoid를 넣을 수도 있다 (값이 튀다면 sigmoid로 한번씩 잡아주면 성능이 좋아질 수 있다)
 model.add(Dense(deep_len[2]))
 model.add(Dense(deep_len[3])) 
@@ -55,12 +39,12 @@ model.add(Dense(deep_len[12]))
 model.add(Dense(deep_len[13])) 
 model.add(Dense(deep_len[14])) 
 model.add(Dense(deep_len[15])) 
-model.add(Dense(y.shape[1], activation = 'softmax')) #이진분류의 마지막 레이어는 무조건 sigmoid!!!!
+model.add(Dense(1, activation = 'sigmoid')) #이진분류의 마지막 레이어는 무조건 sigmoid!!!!
 # sigmoid는 0 ~ 1 사이의 값을 뱉는다
 
 #3. 컴파일, 훈련
 epoch = 10000
-model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics=['accuracy']) # metrics=['accuracy'] 영향을 미치지 않는다
+model.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics=['accuracy']) # metrics=['accuracy'] 영향을 미치지 않는다
 
 from tensorflow.keras.callbacks import EarlyStopping
 patience_num = 50
@@ -71,14 +55,13 @@ es = EarlyStopping(monitor='val_loss', patience=patience_num, mode = 'auto', ver
 start = time.time()
 
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler, MaxAbsScaler
-scaler = MinMaxScaler()
+# scaler = MinMaxScaler()
 # scaler = StandardScaler()
 # scaler = RobustScaler()
-# scaler = MaxAbsScaler()
+scaler = MaxAbsScaler()
 scaler.fit(x_train)
 scaler.transform(x_train)
 scaler.transform(x_test)
-
 
 
 
@@ -88,17 +71,57 @@ print('시간 : ', round(end,2) ,'초')
 
 #4 평가예측
 loss = model.evaluate(x_test,y_test)
-print("loss : ",loss[0]) #<==== List 형태로 제공된다
+print("loss : ",loss[0]) 
 print("accuracy : ",loss[1])
-#===========> 가장 중요한것은 Loss 이다!!
-#===========> Loss 가 가장 낮은 모델이 무조건 좋은 것이다!!!
-#===========> 더욱 중요한것은 val_loss 이다!!
+
 y_predict = model.predict(x_test)
 print("epochs :",epoch)
-result = y_predict[:7]
-print(result)
-print(y_test[:7])
+
+def binary_print(num):
+    if num > 0.5:
+        return 1
+    else:
+        return 0
+    
 '''
+Normal
+Epoch 00164: early stopping
+시간 :  51.66 초
+4/4 [==============================] - 0s 997us/step - loss: 0.2165 - accuracy: 0.9298
+loss :  0.21648594737052917
+accuracy :  0.9298245906829834
+
+MinMaxScaler
+Epoch 00161: early stopping
+시간 :  52.22 초
+4/4 [==============================] - 0s 997us/step - loss: 0.2865 - accuracy: 0.9298
+loss :  0.2864888310432434
+accuracy :  0.9298245906829834
+
+
+StandardScaler
+Epoch 00308: early stopping
+시간 :  102.06 초
+4/4 [==============================] - 0s 998us/step - loss: 0.1533 - accuracy: 0.9298
+loss :  0.15333078801631927
+accuracy :  0.9298245906829834
+
+RobustScaler
+Epoch 00262: early stopping
+시간 :  84.39 초
+4/4 [==============================] - 0s 997us/step - loss: 0.1608 - accuracy: 0.9298
+loss :  0.1608397215604782
+accuracy :  0.9298245906829834
+
+
+MaxAbsScaler
+Epoch 00127: early stopping
+시간 :  41.91 초
+4/4 [==============================] - 0s 998us/step - loss: 0.2551 - accuracy: 0.9123
+loss :  0.25514113903045654
+accuracy :  0.9122806787490845
+
+
 
 
 '''

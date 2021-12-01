@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 def RMSE(y_test, y_predict):
       return np.sqrt(mean_squared_error(y_test, y_predict))  
 
-path = "./_data/bike/"
+path = "D:\\Study\\_data\\bike\\"
 train = pd.read_csv(path +"train.csv")
 # print(train) 10886,12
 
@@ -46,10 +46,10 @@ x_train, x_test, y_train, y_test = train_test_split(x, y,
          train_size = 0.8, shuffle = True, random_state = 66) #
 
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler, MaxAbsScaler
-# scaler = MinMaxScaler()
+scaler = MinMaxScaler()
 # scaler = StandardScaler()
 # scaler = RobustScaler()
-scaler = MaxAbsScaler()
+# scaler = MaxAbsScaler()
 scaler.fit(x_train)
 scaler.transform(x_train)
 scaler.transform(x_test)
@@ -62,12 +62,12 @@ model.add(Dense(deep_len[1], activation = 'linear' ))
 model.add(Dense(deep_len[2]))
 model.add(Dense(deep_len[3])) 
 model.add(Dense(deep_len[4])) 
-model.add(Dense(deep_len[5])) 
+model.add(Dense(deep_len[5], activation = 'relu'))
 model.add(Dense(deep_len[6])) 
 model.add(Dense(deep_len[7] )) 
 model.add(Dense(deep_len[8])) 
 model.add(Dense(deep_len[9])) 
-model.add(Dense(deep_len[10])) 
+model.add(Dense(deep_len[10], activation = 'relu'))
 model.add(Dense(deep_len[11])) 
 model.add(Dense(deep_len[12])) 
 model.add(Dense(deep_len[13])) 
@@ -124,44 +124,80 @@ Epoch 00144: early stopping
 loss :  1.0696314573287964
 R2 :  0.45414555915317945
 RMSE :  1.034229905941543
+<Relu>
+Epoch 00318: early stopping
+시간 :  86.63 초
+69/69 [==============================] - 0s 543us/step - loss: 0.1677
+loss :  0.16770902276039124
+R2 :  0.9144146926773737
+RMSE :  0.40952297832523143
+
 
 ========== MinMaxScaler
-Epoch 00073: early stopping
-시간 :  19.34 초
-69/69 [==============================] - 0s 509us/step - loss: 1.0724
-loss :  1.0724186897277832
-R2 :  0.4527232793683612
-RMSE :  1.035576425487098
-
+Epoch 00186: early stopping
+시간 :  47.7 초
+69/69 [==============================] - 0s 503us/step - loss: 1.0674
+loss :  1.0673558712005615
+R2 :  0.45530688090273974
+RMSE :  1.0331291425287519
+<Relu>
+Epoch 00224: early stopping
+시간 :  64.63 초
+69/69 [==============================] - 0s 572us/step - loss: 0.1957
+loss :  0.1956673413515091
+R2 :  0.9001470317392375
+RMSE :  0.4423429984206058
 
 ========== StandardScaler
-Epoch 00235: early stopping
-시간 :  60.48 초
-69/69 [==============================] - 0s 477us/step - loss: 1.0687
-loss :  1.0687249898910522
-R2 :  0.45460815719937975
-RMSE :  1.0337915710065002
+Epoch 00104: early stopping
+시간 :  26.44 초
+69/69 [==============================] - 0s 493us/step - loss: 1.0677
+loss :  1.0677317380905151
+R2 :  0.45511496145529395
+RMSE :  1.0333111350166428
+<Relu>
+Epoch 00281: early stopping
+시간 :  77.48 초
+69/69 [==============================] - 0s 543us/step - loss: 0.1747
+loss :  0.1746547520160675
+R2 :  0.9108701588449649
+RMSE :  0.417917188949065
+
 
 ========== RobustScaler
-Epoch 00099: early stopping
-시간 :  25.33 초
-69/69 [==============================] - 0s 460us/step - loss: 1.0712
-loss :  1.071240782737732
-R2 :  0.4533243162331223
-RMSE :  1.0350076176347571
+Epoch 00180: early stopping
+시간 :  48.28 초
+69/69 [==============================] - 0s 675us/step - loss: 1.0704
+loss :  1.0704219341278076
+R2 :  0.45374228425307794
+RMSE :  1.0346118776955542
+<Relu>
+Epoch 00070: early stopping
+시간 :  19.48 초
+69/69 [==============================] - 0s 528us/step - loss: 1.0684
+loss :  1.0684194564819336
+R2 :  0.4547640617851242
+RMSE :  1.0336438016838267
+
 ========== MaxAbsScaler
-Epoch 00155: early stopping
-시간 :  39.51 초
-69/69 [==============================] - 0s 494us/step - loss: 1.0666
-loss :  1.0666362047195435
-R2 :  0.4556740753142249
-
-.
+Epoch 00218: early stopping
+시간 :  62.09 초
+69/69 [==============================] - 0s 440us/step - loss: 1.0678
+loss :  1.0678049325942993
+R2 :  0.4550776315577
+RMSE :  1.0333465303160954
+<Relu>
+Epoch 00331: early stopping
+시간 :  90.07 초
+69/69 [==============================] - 0s 601us/step - loss: 0.1777
+loss :  0.1777440756559372
+R2 :  0.9092936230380694
+RMSE :  0.4215970642382318.
 '''
-
+scaler.transform(test_flie)
 ############### 제출용.
 result = model.predict(test_flie)
 submission['count'] = result
 
 # print(submission[:10])
-submission.to_csv(path+"sampleHR_MaxAbsScaler.csv", index = False)
+submission.to_csv(path+"Relu_sampleHR_MinMaxScaler.csv", index = False)
