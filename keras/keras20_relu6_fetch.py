@@ -143,5 +143,6 @@ Epoch 00337: early stopping
 loss :  0.32691675424575806
 accuracy :  0.8728432059288025
 
+.
 
 '''
