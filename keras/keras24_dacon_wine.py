@@ -43,9 +43,9 @@ x_train, x_test, y_train, y_test = train_test_split(x, y,
          train_size = 0.8, shuffle = True, random_state = 66) #
 
 # scaler = MinMaxScaler()
-# scaler = StandardScaler()
+scaler = StandardScaler()
 # scaler = RobustScaler()
-scaler = MaxAbsScaler()
+# scaler = MaxAbsScaler()
 scaler.fit(x_train)
 scaler.transform(x_train)
 scaler.transform(x_test)
@@ -54,30 +54,30 @@ scaler.transform(x_test)
 
 #2 모델구성
 #        
-deep_len = [100, 50, 30, 20, 100, 50, 30, 40, 50, 40, 30, 20, 10, 5, 4, 2]
+deep_len = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 40, 30, 20, 10, 5, 2]
 model = Sequential()
 model.add(Dense(deep_len[0], activation = 'linear', input_dim =x.shape[1]))
 model.add(Dense(deep_len[1], )) # ===> 디폴트 값은 linear이고 sigmoid를 넣을 수도 있다 (값이 튀다면 sigmoid로 한번씩 잡아주면 성능이 좋아질 수 있다)
 model.add(Dense(deep_len[2]))
-model.add(Dense(deep_len[3])) 
+model.add(Dense(deep_len[3],activation ='relu')) 
 model.add(Dense(deep_len[4])) 
 model.add(Dense(deep_len[5],activation ='relu'))
 model.add(Dense(deep_len[6])) 
-model.add(Dense(deep_len[7])) 
+model.add(Dense(deep_len[7],activation ='relu')) 
 model.add(Dense(deep_len[8])) 
 model.add(Dense(deep_len[9])) 
-model.add(Dense(deep_len[10],activation ='relu'))
-model.add(Dense(deep_len[11])) 
-model.add(Dense(deep_len[12])) 
-model.add(Dense(deep_len[13])) 
-model.add(Dense(deep_len[14])) 
-model.add(Dense(deep_len[15])) 
+# model.add(Dense(deep_len[10],activation ='relu'))
+# model.add(Dense(deep_len[11])) 
+# model.add(Dense(deep_len[12])) 
+# model.add(Dense(deep_len[13],activation ='relu')) 
+# model.add(Dense(deep_len[14])) 
+# model.add(Dense(deep_len[15])) 
 model.add(Dense(y.shape[1])) #이진분류의 마지막 레이어는 무조건 sigmoid!!!!
 # sigmoid는 0 ~ 1 사이의 값을 뱉는다
 
 #3. 컴파일, 훈련
 epoch = 10000
-model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics=['accuracy']) # metrics=['accuracy'] 영향을 미치지 않는다
+model.compile(loss = 'mse', optimizer = 'adam', metrics=['accuracy']) # metrics=['accuracy'] 영향을 미치지 않는다
 
 from tensorflow.keras.callbacks import EarlyStopping
 patience_num = 50
@@ -97,8 +97,6 @@ print("loss : ",loss[0]) #<==== List 형태로 제공된다
 print("accuracy : ",loss[1])
 print("epochs :",epoch)
 
-
-
 le.fit(test_flie.type)
 test_flie_type = le.transform(test_flie['type'])
 # x = x.drop(['type'], axis = 1)
@@ -106,7 +104,7 @@ test_flie_type = le.transform(test_flie['type'])
 test_flie['type'] = test_flie_type
 # y_predict = model.predict(x_test)
 
-print(test_flie)
+# print(test_flie)
 
 scaler.transform(test_flie)
 # ############### 제출용.
@@ -114,84 +112,39 @@ result = model.predict(test_flie)
 submission['quality'] = result
 
 # # print(submission[:10])
-submission.to_csv(path+"sampleHR_MaxAbsScaler.csv", index = False)
-
-
-
-
-
-
-
+submission.to_csv(path+"sampleHR_StandardScaler.csv", index = False)
 
 '''
 Normal
-Epoch 00277: early stopping
-시간 :  30.65 초
-2/2 [==============================] - 0s 2ms/step - loss: 0.2468 - accuracy: 0.8889
-loss :  0.24677377939224243
-accuracy :  0.8888888955116272
-<Relu>
-Epoch 00117: early stopping
-시간 :  12.06 초
-1/1 [==============================] - 0s 123ms/step - loss: 0.1231 - accuracy: 0.9667
-loss :  0.12309200316667557
-accuracy :  0.9666666388511658
+
 
 MinMaxScaler
-Epoch 00408: early stopping
-시간 :  46.06 초
-2/2 [==============================] - 0s 974us/step - loss: 0.1322 - accuracy: 0.9444
-loss :  0.13221938908100128
-accuracy :  0.9444444179534912
-<Relu>
-Epoch 00153: early stopping
-시간 :  15.41 초
-1/1 [==============================] - 0s 157ms/step - loss: 0.0300 - accuracy: 1.0000
-loss :  0.029968351125717163
-accuracy :  1.0
+
 
 
 StandardScaler
-Epoch 00225: early stopping
-시간 :  25.25 초
-2/2 [==============================] - 0s 997us/step - loss: 0.1937 - accuracy: 0.9444
-loss :  0.19366972148418427
-accuracy :  0.9444444179534912
-<Relu>
-Epoch 00190: early stopping
-시간 :  18.52 초
-1/1 [==============================] - 0s 122ms/step - loss: 0.1492 - accuracy: 0.9667
-loss :  0.1491539031267166
-accuracy :  0.9666666388511658
+Epoch 00051: early stopping
+시간 :  93.96 초
+21/21 [==============================] - 0s 847us/step - loss: 2.6905 - accuracy: 0.1437
+loss :  2.6905014514923096
+accuracy :  0.14374034106731415
+
 
 
 RobustScaler
-Epoch 00308: early stopping
-시간 :  33.81 초
-2/2 [==============================] - 0s 969us/step - loss: 0.1779 - accuracy: 0.9444
-loss :  0.17789506912231445
-accuracy :  0.9444444179534912
-<Relu>
-Epoch 00125: early stopping
-시간 :  12.52 초
-1/1 [==============================] - 0s 119ms/step - loss: 0.2126 - accuracy: 0.9667
-loss :  0.2126045674085617
-accuracy :  0.9666666388511658
+Epoch 00051: early stopping
+시간 :  95.07 초
+21/21 [==============================] - 0s 799us/step - loss: 12.7051 - accuracy: 0.0232
+loss :  12.705144882202148
+accuracy :  0.023183925077319145
 
 
 MaxAbsScaler
-Epoch 00154: early stopping
-시간 :  17.33 초
-2/2 [==============================] - 0s 997us/step - loss: 0.1858 - accuracy: 0.9167
-loss :  0.18576472997665405
-accuracy :  0.9166666865348816
-epochs : 10000
-<Relu>
-Epoch 00141: early stopping
-시간 :  14.26 초
-1/1 [==============================] - 0s 121ms/step - loss: 0.1332 - accuracy: 0.9667
-loss :  0.13317769765853882
-accuracy :  0.9666666388511658
+Epoch 00051: early stopping
+시간 :  90.08 초
+21/21 [==============================] - 0s 787us/step - loss: 13.4276 - accuracy: 0.0263
+loss :  13.427594184875488
+accuracy :  0.026275115087628365
 
 
 
