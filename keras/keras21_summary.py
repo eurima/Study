@@ -15,7 +15,7 @@ model.add(Dense(no[2]))
 model.add(Dense(no[3])) 
 model.add(Dense(1)) 
 
-model.summary()
+model.summary() #======> 전이학습시 유용하다 노드 구조파악
 '''
 #----3. 컴파일 , 훈련
 model.compile(loss='mse', optimizer='adam') 
