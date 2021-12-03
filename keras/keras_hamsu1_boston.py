@@ -129,6 +129,9 @@ r2 = r2_score(y_test,y_predict)
 print("R2 : ",r2)
 print(deep_len)
 print("epochs :",epoch)
+
+acc= str(loss[1]).replace(".", "_")
+model.save(f"./_save/boston_{acc}.h5")
 '''
 Normal
 Epoch 00263: early stopping

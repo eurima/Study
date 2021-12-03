@@ -86,7 +86,10 @@ y_predict = model.predict(x_test)
 r2 = r2_score(y_test,y_predict)
 print("R2 : ",r2)
 print(deep_len)
-print("epochs :",epoch)
+# print("epochs :",epoch)
+
+acc= str(loss[1]).replace(".", "_")
+model.save(f"./_save/diabet_{acc}.h5")
 
 
 '''

@@ -97,13 +97,16 @@ print("loss : ",loss[0])
 print("accuracy : ",loss[1])
 
 y_predict = model.predict(x_test)
-print("epochs :",epoch)
+# print("epochs :",epoch)
 
 def binary_print(num):
     if num > 0.5:
         return 1
     else:
         return 0
+    
+acc= str(loss[1]).replace(".", "_")
+model.save(f"./_save/cancer_{acc}.h5")
     
 '''
 Normal
