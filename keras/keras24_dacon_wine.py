@@ -4,46 +4,45 @@ from tensorflow.keras.layers import Dense
 import numpy as np
 import pandas as pd
 import time
-from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler, MaxAbsScaler, LabelEncoder
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler, MaxAbsScaler, LabelEncoder, OneHotEncoder
 
 #1 데이터
-# dataset  = load_wine()
-# print(dataset)
-# print(dataset.DESCR) 
-
-# x = dataset.data
-# y = dataset.target #===== sklearn에서만 제공!!
-# print(x.shape, y.shape) 
-# print(np.unique(y)) #---->  배열의 고유값을 찾아준다 (라벨값이 어떤것이 있는가) len(np.unique(y))
-path = "D:\\_data\\dacon\\wine\\" #"D:\\Study\\_data\\wine\\" 
+path = "D:\\_data\\dacon\\wine\\" 
 train = pd.read_csv(path +"train.csv")
-# print(train) 10886,12
+test_flie = pd.read_csv(path + "test.csv") 
 
-test_flie = pd.read_csv(path + "test.csv") #### 제출용 test는 시험용!
-# print(test) 6493,9
 submission = pd.read_csv(path+"sample_Submission.csv") #제출할 값
 y = train['quality']
 x = train.drop(['quality'], axis =1) #
 # x = train #.drop(['casual','registered','count'], axis =1) #
 
 le = LabelEncoder()
-le.fit(train.type)
-x_type = le.transform(train['type'])
+le.fit(train['type'])
+# x_type = le.transform(train['type'])
 # x = x.drop(['type'], axis = 1)
 # x = pd.concat([x,x_type])
-x['type'] = x_type
+x['type'] = le.transform(train['type'])
 # print(x)
+# y = np.array(y).reshape(-1,1)
+# one_hot = OneHotEncoder()
+# one_hot.fit(y)
+# y = one_hot.transform(y).toarray()
+# print(y)
+
+
 
 from tensorflow.keras.utils import to_categorical
 # one_hot = to_categorical(y,num_classes=len(np.unique(y)))
 y = to_categorical(y) #<=============== class 개수대로 자동으로 분류 해 준다!!! /// 간단!!
+print(y)
+
 
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x, y, 
          train_size = 0.8, shuffle = True, random_state = 66) #
 
-# scaler = MinMaxScaler()
-scaler = StandardScaler()
+scaler = MinMaxScaler()
+# scaler = StandardScaler()
 # scaler = RobustScaler()
 # scaler = MaxAbsScaler()
 scaler.fit(x_train)
@@ -72,19 +71,17 @@ model.add(Dense(deep_len[9]))
 # model.add(Dense(deep_len[13],activation ='relu')) 
 # model.add(Dense(deep_len[14])) 
 # model.add(Dense(deep_len[15])) 
-model.add(Dense(y.shape[1])) #이진분류의 마지막 레이어는 무조건 sigmoid!!!!
+model.add(Dense(y.shape[1], activation = 'softmax'))
 # sigmoid는 0 ~ 1 사이의 값을 뱉는다
 
 #3. 컴파일, 훈련
 epoch = 10000
-model.compile(loss = 'mse', optimizer = 'adam', metrics=['accuracy']) # metrics=['accuracy'] 영향을 미치지 않는다
+model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics=['accuracy']) # metrics=['accuracy'] 영향을 미치지 않는다
 
 from tensorflow.keras.callbacks import EarlyStopping
 patience_num = 50
 es = EarlyStopping(monitor='val_loss', patience=patience_num, mode = 'auto', verbose=1, restore_best_weights=True)
-# 통상 val_loss 가 성능이 더 좋다
-# 그렇지만 너무 튄다면 loss를 넣어도 된다
-# 나중에는 monitor='accuracy' ,mode 가 헷갈리면 'auto'로 잡는다
+
 start = time.time()
 
 model.fit(x_train, y_train, epochs = epoch, batch_size =1,validation_split=0.2,callbacks=[es])
@@ -97,22 +94,19 @@ print("loss : ",loss[0]) #<==== List 형태로 제공된다
 print("accuracy : ",loss[1])
 print("epochs :",epoch)
 
-le.fit(test_flie.type)
-test_flie_type = le.transform(test_flie['type'])
-# x = x.drop(['type'], axis = 1)
-# x = pd.concat([x,x_type])
-test_flie['type'] = test_flie_type
-# y_predict = model.predict(x_test)
 
-# print(test_flie)
+test_flie['type'] = le.transform(test_flie['type'])
+
 
 scaler.transform(test_flie)
 # ############### 제출용.
 result = model.predict(test_flie)
-submission['quality'] = result
+result_recover = np.argmax(y, axis =1).reshape(-1,1)
+submission['quality'] = result_recover
 
 # # print(submission[:10])
-submission.to_csv(path+"sampleHR_StandardScaler.csv", index = False)
+submission.to_csv(path+"sampleHR_MinMaxScaler.csv", index = False)
+print(result_recover)
 
 '''
 Normal
@@ -123,29 +117,14 @@ MinMaxScaler
 
 
 StandardScaler
-Epoch 00051: early stopping
-시간 :  93.96 초
-21/21 [==============================] - 0s 847us/step - loss: 2.6905 - accuracy: 0.1437
-loss :  2.6905014514923096
-accuracy :  0.14374034106731415
 
 
 
 RobustScaler
-Epoch 00051: early stopping
-시간 :  95.07 초
-21/21 [==============================] - 0s 799us/step - loss: 12.7051 - accuracy: 0.0232
-loss :  12.705144882202148
-accuracy :  0.023183925077319145
+
 
 
 MaxAbsScaler
-Epoch 00051: early stopping
-시간 :  90.08 초
-21/21 [==============================] - 0s 787us/step - loss: 13.4276 - accuracy: 0.0263
-loss :  13.427594184875488
-accuracy :  0.026275115087628365
-
 
 
 
