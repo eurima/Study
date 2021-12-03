@@ -14,37 +14,25 @@ test_flie = pd.read_csv(path + "test.csv")
 submission = pd.read_csv(path+"sample_Submission.csv") #제출할 값
 y = train['quality']
 x = train.drop(['quality'], axis =1) #
-# x = train #.drop(['casual','registered','count'], axis =1) #
 
 le = LabelEncoder()
 le.fit(train['type'])
-# x_type = le.transform(train['type'])
-# x = x.drop(['type'], axis = 1)
-# x = pd.concat([x,x_type])
 x['type'] = le.transform(train['type'])
-# print(x)
-# y = np.array(y).reshape(-1,1)
-# one_hot = OneHotEncoder()
-# one_hot.fit(y)
-# y = one_hot.transform(y).toarray()
-# print(y)
-
 
 
 from tensorflow.keras.utils import to_categorical
-# one_hot = to_categorical(y,num_classes=len(np.unique(y)))
 y = to_categorical(y) #<=============== class 개수대로 자동으로 분류 해 준다!!! /// 간단!!
-print(y)
+# print(y)
 
 
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x, y, 
          train_size = 0.8, shuffle = True, random_state = 66) #
 
-scaler = MinMaxScaler()
+# scaler = MinMaxScaler()
 # scaler = StandardScaler()
 # scaler = RobustScaler()
-# scaler = MaxAbsScaler()
+scaler = MaxAbsScaler()
 scaler.fit(x_train)
 scaler.transform(x_train)
 scaler.transform(x_test)
@@ -55,16 +43,16 @@ scaler.transform(x_test)
 #        
 deep_len = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 40, 30, 20, 10, 5, 2]
 model = Sequential()
-model.add(Dense(deep_len[0], activation = 'linear', input_dim =x.shape[1]))
-model.add(Dense(deep_len[1], )) # ===> 디폴트 값은 linear이고 sigmoid를 넣을 수도 있다 (값이 튀다면 sigmoid로 한번씩 잡아주면 성능이 좋아질 수 있다)
-model.add(Dense(deep_len[2]))
-model.add(Dense(deep_len[3],activation ='relu')) 
-model.add(Dense(deep_len[4])) 
-model.add(Dense(deep_len[5],activation ='relu'))
-model.add(Dense(deep_len[6])) 
-model.add(Dense(deep_len[7],activation ='relu')) 
-model.add(Dense(deep_len[8])) 
-model.add(Dense(deep_len[9])) 
+model.add(Dense(deep_len[0],activation ='relu', input_dim =x.shape[1])) #activation = 'linear'
+model.add(Dense(deep_len[1],activation ='sigmoid' ))
+model.add(Dense(deep_len[2],activation ='relu' ))
+model.add(Dense(deep_len[3],activation ='sigmoid')) 
+model.add(Dense(deep_len[4],activation ='relu' )) 
+model.add(Dense(deep_len[5],activation ='sigmoid'))
+model.add(Dense(deep_len[6],activation ='relu' )) 
+model.add(Dense(deep_len[7],activation ='sigmoid')) 
+model.add(Dense(deep_len[8],activation ='relu' )) 
+model.add(Dense(deep_len[9],activation ='sigmoid' )) 
 # model.add(Dense(deep_len[10],activation ='relu'))
 # model.add(Dense(deep_len[11])) 
 # model.add(Dense(deep_len[12])) 
@@ -101,11 +89,11 @@ test_flie['type'] = le.transform(test_flie['type'])
 scaler.transform(test_flie)
 # ############### 제출용.
 result = model.predict(test_flie)
-result_recover = np.argmax(y, axis =1).reshape(-1,1)
+result_recover = np.argmax(result, axis =1).reshape(-1,1)
 submission['quality'] = result_recover
 
 # # print(submission[:10])
-submission.to_csv(path+"sampleHR_MinMaxScaler.csv", index = False)
+submission.to_csv(path+"sampleHR_MaxAbsScaler.csv", index = False)
 print(result_recover)
 
 '''
@@ -113,19 +101,35 @@ Normal
 
 
 MinMaxScaler
-
-
+시간 :  130.68 초
+21/21 [==============================] - 0s 800us/step - loss: 1.1946 - accuracy: 0.4467
+loss :  1.1946383714675903
+accuracy :  0.44667696952819824
 
 StandardScaler
+Epoch 00067: early stopping
+시간 :  105.87 초
+21/21 [==============================] - 0s 816us/step - loss: 1.1936 - accuracy: 0.4467
+loss :  1.1936283111572266
+accuracy :  0.44667696952819824
 
 
 
 RobustScaler
+Epoch 00073: early stopping
+시간 :  116.18 초
+21/21 [==============================] - 0s 801us/step - loss: 1.2010 - accuracy: 0.4467
+loss :  1.201033353805542
+accuracy :  0.44667696952819824
 
 
 
 MaxAbsScaler
-
+Epoch 00076: early stopping
+시간 :  121.09 초
+21/21 [==============================] - 0s 881us/step - loss: 1.1966 - accuracy: 0.4467
+loss :  1.1966397762298584
+accuracy :  0.44667696952819824
 
 
 
