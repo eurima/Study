@@ -94,10 +94,12 @@ print("loss : ",loss[0])
 print("accuracy : ",loss[1])
 
 y_predict = model.predict(x_test)
-print("epochs :",epoch)
+# print("epochs :",epoch)
 # result = y_predict[:7]
 # print(result)
 # print(y_test[:7])
+acc= str(loss[1]).replace(".", "_")
+model.save(f"./_save/fetch_{acc}.h5")
 '''
 Normal
 

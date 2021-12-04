@@ -120,8 +120,11 @@ r2 = r2_score(y_test,y_predict)
 rmse = RMSE(y_test, y_predict)
 print("R2 : ", r2)
 print("RMSE : ",rmse)
-print("epochs :",epoch)
+# print("epochs :",epoch)
 print(deep_len)
+
+acc= str(loss[1]).replace(".", "_")
+model.save(f"./_save/kaggle_bike_{acc}.h5")
 
 '''
 3.11680

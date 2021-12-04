@@ -97,7 +97,10 @@ print("accuracy : ",loss[1])
 #===========> Loss 가 가장 낮은 모델이 무조건 좋은 것이다!!!
 #===========> 더욱 중요한것은 val_loss 이다!!
 y_predict = model.predict(x_test)
-print("epochs :",epoch)
+# print("epochs :",epoch)
+
+acc= str(loss[1]).replace(".", "_")
+model.save(f"./_save/iris_{acc}.h5")
 
 '''
 Normal
