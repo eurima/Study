@@ -85,7 +85,7 @@ print("epochs :",epoch)
 # print(result)
 # print(y_test[:7])
 '''
-<<기존 성과 >>
+<<기존 성과 우수>>
 ======StandardScaler
 Epoch 00095: early stopping
 시간 :  459.15 초
@@ -99,6 +99,10 @@ Epoch 00283: early stopping
 loss :  0.3160002529621124
 accuracy :  0.8783507943153381.
 <<ModelCheckpoint >>
+
+Epoch 00020: val_loss did not improve from 0.63842
+Epoch 21/10000
+ 97828/371847 [======>.......................] - ETA: 3:27 - loss: 0.6660 - accuracy: 0.7270    
 
 
 '''
