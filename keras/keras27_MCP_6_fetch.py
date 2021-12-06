@@ -97,7 +97,7 @@ Epoch 00283: early stopping
 시간 :  1513.77 초
 3632/3632 [==============================] - 2s 570us/step - loss: 0.3160 - accuracy: 0.8784
 loss :  0.3160002529621124
-accuracy :  0.8783507943153381
+accuracy :  0.8783507943153381.
 <<ModelCheckpoint >>
 
 
