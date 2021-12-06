@@ -65,17 +65,6 @@ model = Model(inputs = input1, outputs = output1)
 
 
 #3. 컴파일, 훈련
-epoch = 10000
-model.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics=['accuracy']) # metrics=['accuracy'] 영향을 미치지 않는다
-
-from tensorflow.keras.callbacks import EarlyStopping
-patience_num = 50
-es = EarlyStopping(monitor='val_loss', patience=patience_num, mode = 'auto', verbose=1, restore_best_weights=True)
-# 통상 val_loss 가 성능이 더 좋다
-# 그렇지만 너무 튄다면 loss를 넣어도 된다
-# 나중에는 monitor='accuracy' ,mode 가 헷갈리면 'auto'로 잡는다
-start = time.time()
-
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler, MaxAbsScaler
 # scaler = MinMaxScaler()
 # scaler = StandardScaler()
@@ -86,10 +75,25 @@ scaler.transform(x_train)
 scaler.transform(x_test)
 
 
-
-model.fit(x_train, y_train, epochs = epoch, batch_size =1,validation_split=0.2,callbacks=[es])
+########################################################################
+model.compile(loss = 'mse', optimizer = 'adam')
+start = time.time()
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+import datetime
+epoch = 10000
+patience_num = 500
+date = datetime.datetime.now()
+datetime = date.strftime("%m%d_%H%M")
+filepath = "./_ModelCheckPoint/"
+filename = '{epoch:04d}-{val_loss:4f}.hdf5' #filepath + datetime
+model_path = "".join([filepath,'k27_boston_',datetime,"_",filename])
+es = EarlyStopping(monitor='val_loss', patience=patience_num, mode = 'auto', restore_best_weights=True)
+mcp = ModelCheckpoint(monitor='val_loss', mode = 'auto', verbose=1, save_best_only= True, filepath = model_path)
+model.fit(x_train, y_train, epochs = epoch, validation_split=0.2,callbacks=[es,mcp], batch_size =1)
 end = time.time() - start
-print('시간 : ', round(end,2) ,'초')
+########################################################################
+
+
 
 #4 평가예측
 loss = model.evaluate(x_test,y_test)
