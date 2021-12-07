@@ -69,7 +69,7 @@ filename = '{epoch:04d}-{val_loss:4f}.hdf5' #filepath + datetime
 model_path = "".join([filepath,'k27_fetch_',datetime,"_",filename])
 es = EarlyStopping(monitor='val_loss', patience=patience_num, mode = 'auto', restore_best_weights=True)
 mcp = ModelCheckpoint(monitor='val_loss', mode = 'auto', verbose=1, save_best_only= True, filepath = model_path)
-model.fit(x_train, y_train, epochs = epoch, validation_split=0.2,callbacks=[es,mcp], batch_size =1)
+model.fit(x_train, y_train, epochs = epoch, validation_split=0.2,callbacks=[es,mcp], batch_size =32)
 end = time.time() - start
 print('시간 : ', round(end,2) ,'초')
 ########################################################################
