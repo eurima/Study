@@ -4,38 +4,40 @@ from tensorflow.python.keras.layers.core import Dropout
 
 
 '''
-model.summary()
-Model: "sequential"
-_________________________________________________________________
-Layer (type)                 Output Shape              Param #
-=================================================================
-conv2d (Conv2D)              (None, 4, 4, 10)          50
-=================================================================
-Total params: 50
-Trainable params: 50
-Non-trainable params: 0
-'''
-'''
-model.add(Conv2D(10, kernel_size=(2,2), input_shape = (10,10,1) #9,9,10 아웃
-model.add(Conv2D(5,(3,3), activation='relu')) # 7,7,5 아웃
-model.add(Conv2D(7,(2,2), activation='relu')) # 6,6,7 아웃
-in - kernel_size + 1
-
-Model: "sequential"
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #
 =================================================================
 conv2d (Conv2D)              (None, 4, 4, 10)          50
 _________________________________________________________________
 conv2d_1 (Conv2D)            (None, 3, 3, 5)           205
-_________________________________________________________________
-conv2d_2 (Conv2D)            (None, 2, 2, 7)           147
 =================================================================
-Total params: 402
-Trainable params: 402
-왜 402인가?
+Total params: 255
+Trainable params: 255
+Non-trainable params: 0
+
+왜 50인가?
+model.add(Conv2D(10, kernel_size = (2,2), input_shape = (10,10, 1))  
+
+model.add(Conv2D(출력채널, kernel_size = (필터크기) , input_shape = (,,RGB)))
+(필터 크기 axb) x  (입력 채널(RGB)) x (출력 채널) + (출력 채널 bias)
+model.add(Conv2D(10, kernel_size = (2,2), input_shape = (10,10,1)))
+
+2 * 2 * 1 * 10 + 10 = 40 + 10 = 50
+=====================
+
+
 (Conv2D(10, kernel_size=(2,2), input_shape = (10,10,1)
 정식 명칭 찾아서 적을 것
+
+첫번째 인자 : 컨볼루션 필터의 수
+두번째 인자 컨볼루션 커널의 (행,열)
+세번째인자 샘플수를 제외한 입력 형태를 정의
+모델에서의 첫 레이어일때만 정의
+(행,열,채널수)
+흑백의 경우 채널이 1, 컬러는 채널 3
+행 = 너비 width
+열 = 높이 heighr
+
 '''
 model = Sequential()
 model.add(Conv2D(10, kernel_size=(2,2), input_shape = (10,10,1)))# 9,9,10
