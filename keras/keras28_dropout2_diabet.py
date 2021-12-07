@@ -1,5 +1,5 @@
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dense, Dropout
 from sklearn.metrics import r2_score
 from sklearn.datasets import load_boston, load_diabetes
 import time
@@ -29,10 +29,11 @@ model.add(Dense(deep_len[0], input_dim = 10))
 model.add(Dense(deep_len[1])) 
 model.add(Dense(deep_len[2]))
 model.add(Dense(deep_len[3],activation ='relu')) 
+model.add(Dropout(0.2))
 model.add(Dense(deep_len[4])) 
 model.add(Dense(deep_len[5])) 
 model.add(Dense(deep_len[6],activation ='relu')) 
-# model.add(Dropout(0.2))
+model.add(Dropout(0.2))
 model.add(Dense(deep_len[7])) 
 # model.add(Dense(deep_len[8])) 
 # model.add(Dense(deep_len[9])) 
@@ -42,7 +43,7 @@ model.add(Dense(deep_len[7]))
 # model.add(Dense(deep_len[13])) 
 # model.add(Dense(deep_len[14])) 
 # model.add(Dense(deep_len[15])) 
-# model.add(Dropout(0.5))
+model.add(Dropout(0.5))
 model.add(Dense(1)) 
 
 #3. 컴파일, 훈련
@@ -95,6 +96,10 @@ Epoch 00683: val_loss did not improve from 2664.36499
 3/3 [==============================] - 0s 997us/step - loss: 3955.6995
 loss :  3955.699462890625
 R2 :  0.390497062159188
+
+<<Drop Out>>  ======================>
+loss :  3259.2734375
+R2 :  0.49780382741960916
 
 
 

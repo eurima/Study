@@ -1,7 +1,6 @@
 
-from os import scandir
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dense, Dropout
 import numpy as np
 import time
 
@@ -42,21 +41,27 @@ x_test = scaler.transform(x_test)
 deep_len = [100,80,60,40,50,80,70,60,50,40,30,20,10,5,4,2]
 model = Sequential() 
 model.add(Dense(deep_len[0], input_dim =x.shape[1])) 
-model.add(Dense(deep_len[1])) 
+# model.add(Dropout(0.2))
+model.add(Dense(deep_len[1]))
+# model.add(Dropout(0.3))
 model.add(Dense(deep_len[2]))
+# model.add(Dropout(0.1))
 model.add(Dense(deep_len[3])) 
 model.add(Dense(deep_len[4])) 
 model.add(Dense(deep_len[5] ,activation ='relu')) 
+model.add(Dropout(0.2))
 model.add(Dense(deep_len[6])) 
 model.add(Dense(deep_len[7])) 
 model.add(Dense(deep_len[8])) 
 model.add(Dense(deep_len[9])) 
 model.add(Dense(deep_len[10],activation ='relu')) 
+model.add(Dropout(0.2))
 model.add(Dense(deep_len[11])) 
 model.add(Dense(deep_len[12])) 
 model.add(Dense(deep_len[13])) 
 model.add(Dense(deep_len[14])) 
 model.add(Dense(deep_len[15])) 
+model.add(Dropout(0.5))
 model.add(Dense(1))
 
 #3. 컴파일, 훈련
@@ -67,7 +72,7 @@ start = time.time()
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 import datetime
 epoch = 10000
-patience_num = 500
+patience_num = 50
 date = datetime.datetime.now()
 datetime = date.strftime("%m%d_%H%M")
 filepath = "./_ModelCheckPoint/"
@@ -102,10 +107,9 @@ Epoch 01423: val_loss did not improve from 6.13479
 loss :  5.567386627197266
 R2 :  0.9333908703456402
 
-<<Drop Out>>
+<<Drop OUT>>
 Epoch 00097: val_loss did not improve from 25.87711
 4/4 [==============================] - 0s 997us/step - loss: 18.0372
 loss :  18.037235260009766
 R2 :  0.7841995627355511
-
 '''

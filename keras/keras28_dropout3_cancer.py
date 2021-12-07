@@ -1,6 +1,6 @@
 from sklearn.datasets import load_breast_cancer
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dense, Dropout
 # from sklearn.metrics import r2_score
 import time
 
@@ -38,18 +38,19 @@ model.add(Dense(deep_len[2]))
 model.add(Dense(deep_len[3])) 
 model.add(Dense(deep_len[4])) 
 model.add(Dense(deep_len[5],activation ='relu')) 
+model.add(Dropout(0.2))
 model.add(Dense(deep_len[6])) 
 model.add(Dense(deep_len[7])) 
 model.add(Dense(deep_len[8])) 
 model.add(Dense(deep_len[9])) 
 model.add(Dense(deep_len[10],activation ='relu')) 
-# model.add(Dropout(0.2))
+model.add(Dropout(0.2))
 model.add(Dense(deep_len[11])) 
 model.add(Dense(deep_len[12])) 
 model.add(Dense(deep_len[13])) 
 model.add(Dense(deep_len[14])) 
 model.add(Dense(deep_len[15])) 
-# model.add(Dropout(0.5))
+model.add(Dropout(0.5))
 model.add(Dense(1, activation = 'sigmoid')) #이진분류의 마지막 레이어는 무조건 sigmoid!!!!
 # sigmoid는 0 ~ 1 사이의 값을 뱉는다
 
@@ -109,6 +110,14 @@ Epoch 00724: val_loss did not improve from 0.04521
 4/4 [==============================] - 0s 988us/step - loss: 0.3101 - accuracy: 0.9298
 loss :  0.31006288528442383
 accuracy :  0.9298245906829834
+
+<< Drop Out >> ========================================================>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Epoch 10000: val_loss did not improve from 0.02684
+시간 :  3232.84 초
+4/4 [==============================] - 0s 3ms/step - loss: 0.1193 - accuracy: 0.9649
+loss :  0.11932306736707687
+accuracy :  0.9649122953414917
+
 
 
 

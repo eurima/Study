@@ -49,7 +49,7 @@ start = time.time()
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 import datetime
 epoch = 10000
-patience_num = 500
+patience_num = 50
 date = datetime.datetime.now()
 datetime = date.strftime("%m%d_%H%M")
 filepath = "./_ModelCheckPoint/"
@@ -57,7 +57,7 @@ filename = '{epoch:04d}-{val_loss:4f}.hdf5' #filepath + datetime
 model_path = "".join([filepath,'k30_mnist2_',datetime,"_",filename])
 es = EarlyStopping(monitor='val_loss', patience=patience_num, mode = 'auto', restore_best_weights=True)
 mcp = ModelCheckpoint(monitor='val_loss', mode = 'auto', verbose=1, save_best_only= True, filepath = model_path)
-hist = model.fit(x_train, y_train, epochs = epoch, validation_split=0.2, callbacks=[es,mcp], batch_size =100)
+hist = model.fit(x_train, y_train, epochs = epoch, validation_split=0.2, callbacks=[es,mcp], batch_size = 500)
 end = time.time() - start
 print('시간 : ', round(end,2) ,'초')
 ########################################################################
@@ -69,6 +69,11 @@ print("loss : ",loss[0])
 print("accuracy : ",loss[1])
 
 '''
+Epoch 00532: val_loss did not improve from 0.09915
+시간 :  4441.69 초
+313/313 [==============================] - 1s 2ms/step - loss: 0.0834 - accuracy: 0.9765
+loss :  0.08340967446565628
+accuracy :  0.9764999747276306
 
 
 '''

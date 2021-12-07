@@ -2,7 +2,7 @@ import time
 import pandas as pd
 import numpy as np
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dense, Dropout
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 
@@ -63,19 +63,19 @@ model.add(Dense(deep_len[2]))
 model.add(Dense(deep_len[3])) 
 model.add(Dense(deep_len[4])) 
 model.add(Dense(deep_len[5], activation = 'relu'))
-# model.add(Dropout(0.2))
+model.add(Dropout(0.2))
 model.add(Dense(deep_len[6])) 
 model.add(Dense(deep_len[7] )) 
 model.add(Dense(deep_len[8])) 
 model.add(Dense(deep_len[9])) 
 model.add(Dense(deep_len[10], activation = 'relu'))
-# model.add(Dropout(0.2))
+model.add(Dropout(0.2))
 model.add(Dense(deep_len[11])) 
 model.add(Dense(deep_len[12])) 
 model.add(Dense(deep_len[13])) 
 model.add(Dense(deep_len[14])) 
 model.add(Dense(deep_len[15])) 
-# model.add(Dropout(0.5))
+model.add(Dropout(0.5))
 model.add(Dense(1))
 
 #3. 컴파일, 훈련

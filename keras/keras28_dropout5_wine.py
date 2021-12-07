@@ -1,6 +1,6 @@
 from sklearn.datasets import load_wine
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dense, Dropout
 import numpy as np
 import time
 
@@ -41,18 +41,19 @@ model.add(Dense(deep_len[2]))
 model.add(Dense(deep_len[3])) 
 model.add(Dense(deep_len[4])) 
 model.add(Dense(deep_len[5],activation ='relu'))
+model.add(Dropout(0.2))
 model.add(Dense(deep_len[6])) 
 model.add(Dense(deep_len[7])) 
 model.add(Dense(deep_len[8])) 
 model.add(Dense(deep_len[9])) 
 model.add(Dense(deep_len[10],activation ='relu'))
-# model.add(Dropout(0.2))
+model.add(Dropout(0.2))
 model.add(Dense(deep_len[11])) 
 model.add(Dense(deep_len[12])) 
 model.add(Dense(deep_len[13])) 
 model.add(Dense(deep_len[14])) 
 model.add(Dense(deep_len[15])) 
-# model.add(Dropout(0.5))
+model.add(Dropout(0.5))
 model.add(Dense(y.shape[1], activation = 'softmax')) #이진분류의 마지막 레이어는 무조건 sigmoid!!!!
 # sigmoid는 0 ~ 1 사이의 값을 뱉는다
 

@@ -43,11 +43,13 @@ model.add(Dense(deep_len[7]))
 model.add(Dense(deep_len[8]))
 model.add(Dense(deep_len[9]))
 model.add(Dense(deep_len[10],activation ='relu'))
+# model.add(Dropout(0.2))
 model.add(Dense(deep_len[11]))
 model.add(Dense(deep_len[12]))
 model.add(Dense(deep_len[13]))
 model.add(Dense(deep_len[14]))
 model.add(Dense(deep_len[15]))
+# model.add(Dropout(0.5))
 model.add(Dense(y.shape[1], activation = 'softmax')) #이진분류의 마지막 레이어는 무조건 sigmoid!!!!
 # sigmoid는 0 ~ 1 사이의 값을 뱉는다
 
