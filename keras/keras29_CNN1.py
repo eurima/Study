@@ -19,18 +19,23 @@ Non-trainable params: 0
 model.add(Conv2D(10, kernel_size = (2,2), input_shape = (10,10, 1))  
 
 model.add(Conv2D(출력채널, kernel_size = (필터크기) , input_shape = (,,RGB)))
+
 (필터 크기 axb) x  (입력 채널(RGB)) x (출력 채널) + (출력 채널 bias)
+
 model.add(Conv2D(10, kernel_size = (2,2), input_shape = (10,10,1)))
 
 2 * 2 * 1 * 10 + 10 = 40 + 10 = 50
+
+두번째 레이어는 입력 받는 채널이 10, 필터크기 (2,2) , 필터 5
+2 * 2 * 10 * 5 + 5 = 205
 =====================
 
 
 (Conv2D(10, kernel_size=(2,2), input_shape = (10,10,1)
 정식 명칭 찾아서 적을 것
 
-첫번째 인자 : 컨볼루션 필터의 수
-두번째 인자 컨볼루션 커널의 (행,열)
+첫번째 인자 : filter 컨볼루션 필터의 수
+두번째 인자 : kernel_size 컨볼루션 커널의 (행,열)
 세번째인자 샘플수를 제외한 입력 형태를 정의
 모델에서의 첫 레이어일때만 정의
 (행,열,채널수)
@@ -50,6 +55,7 @@ model.add(Flatten())
 model.add(Dense(64))
 model.add(Dropout(0.2))
 model.add(Dense(16))
+model.add(Dropout(0.5))
 model.add(Dense(5, activation='softmax'))
 # model.summary()
 '''
