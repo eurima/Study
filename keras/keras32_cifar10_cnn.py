@@ -3,13 +3,14 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPool2D
 from tensorflow.python.keras.layers.core import Dropout
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 import time
 
 (x_train, y_train),(x_test,y_test) = cifar10.load_data()
 
-print(x_train.shape)
-print(y_train.shape)
-print(np.unique(y_train,return_counts=True))
+# print(x_train.shape)
+# print(y_train.shape)
+# print(np.unique(y_train,return_counts=True))
 '''
 (50000, 32, 32, 3)
 (50000, 1)
@@ -20,22 +21,33 @@ from tensorflow.keras.utils import to_categorical
 y_train = to_categorical(y_train)
 y_test = to_categorical(y_test)
 
+scaler = StandardScaler()
+
 #1 데이터
-x_train = x_train.reshape(x_train.shape[0],x_train.shape[1],x_train.shape[2],x_train.shape[3])
-x_test = x_test.reshape(x_test.shape[0],x_test.shape[1],x_test.shape[2],x_test.shape[3])
+# x_train = x_train.reshape(x_train.shape[0],x_train.shape[1],x_train.shape[2],x_train.shape[3])
+# x_test = x_test.reshape(x_test.shape[0],x_test.shape[1],x_test.shape[2],x_test.shape[3])
+
+n = x_train.shape[0]# 이미지갯수 50000
+x_train_reshape = x_train.reshape(n,-1) #----> (50000,32,32,3) --> (50000, 32*32*3 ) 0~255
+x_train_transe = scaler.fit_transform(x_train_reshape) #0~255 -> 0~1
+x_train = x_train_transe.reshape(x_train.shape) #--->(50000,32,32,3) 0~1
+
+m = x_test.shape[0]
+x_test = scaler.transform(x_test.reshape(m,-1)).reshape(x_test.shape)
 
 model = Sequential()
-model.add(Conv2D(10, kernel_size=(2,2),padding ='same',strides=1, input_shape = (32,32,3)))
+model.add(Conv2D(64, kernel_size=(4,4),padding ='same',strides=1, input_shape = (32,32,3)))
 model.add(MaxPool2D(2))
-model.add(Conv2D(5,(3,3), activation='relu'))
+model.add(Conv2D(32,(4,4),padding ='same', activation='relu'))
 model.add(MaxPool2D(2))
 model.add(Dropout(0.2))
-model.add(Conv2D(3,(2,2), activation='relu'))
+model.add(Conv2D(8,(2,2),padding ='same', activation='relu'))
+model.add(MaxPool2D(2))
 model.add(Flatten())
-model.add(Dense(20))
+model.add(Dense(100))
 model.add(Dropout(0.2))
-model.add(Dense(10))
-model.add(Dense(5))
+model.add(Dense(50))
+model.add(Dense(25))
 model.add(Dropout(0.5))
 model.add(Dense(10, activation='softmax'))
 
@@ -68,5 +80,10 @@ y_predict = model.predict(x_test)
 print("loss : ",loss[0])
 print("accuracy : ",loss[1])
 
-
+'''
+시간 :  1355.58 초
+313/313 [==============================] - 1s 3ms/step - loss: 1.5798 - accuracy: 0.3749
+loss :  1.5797550678253174
+accuracy :  0.3749000132083893
+'''
 
