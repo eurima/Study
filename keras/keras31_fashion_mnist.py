@@ -26,14 +26,15 @@ x_test = x_test.reshape(x_test.shape[0],x_test.shape[1],x_test.shape[2],1)
 
 
 model = Sequential()
-model.add(Conv2D(10, kernel_size=(2,2), input_shape = (28,28,1)))# 9,9,10
-model.add(Conv2D(5,(3,3), activation='relu'))
+model.add(Conv2D(128, kernel_size=(2,2), input_shape = (28,28,1)))
+model.add(Conv2D(64,(3,3), activation='relu'))
 model.add(Dropout(0.2))
-model.add(Conv2D(7,(2,2), activation='relu'))
+model.add(Conv2D(32,(2,2), activation='relu'))
 model.add(Flatten())
-model.add(Dense(64))
+model.add(Dense(128))
 model.add(Dropout(0.2))
-model.add(Dense(16))
+model.add(Dense(64))
+model.add(Dense(32))
 model.add(Dropout(0.5))
 model.add(Dense(10, activation='softmax'))
 
@@ -66,5 +67,16 @@ loss = model.evaluate(x_test,y_test)
 y_predict = model.predict(x_test)
 print("loss : ",loss[0])
 print("accuracy : ",loss[1])
+
+'''
+시간 :  1582.41 초
+313/313 [==============================] - 1s 2ms/step - loss: 0.3688 - accuracy: 0.8705
+loss :  0.3687971234321594
+accuracy :  0.8705000281333923
+
+Epoch 00067: val_loss did not improve from 0.31537
+Epoch 68/10000
+40/96 [===========>..................] - ETA: 43s - loss: 0.1408 - accuracy: 0.9515 
+'''
 
 

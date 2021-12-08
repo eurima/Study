@@ -1,7 +1,6 @@
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, Flatten
+from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D
 from tensorflow.python.keras.layers.core import Dropout
-
 
 '''
 _________________________________________________________________
@@ -43,9 +42,12 @@ model.add(Conv2D(10, kernel_size = (2,2), input_shape = (10,10,1)))
 행 = 너비 width
 열 = 높이 heighr
 
+padding 은 성능에 영향 多
+stride는 그다지 영향을 주지 않는다
 '''
 model = Sequential()
-model.add(Conv2D(10, kernel_size=(2,2), input_shape = (10,10,1)))# 9,9,10
+model.add(Conv2D(10, kernel_size=(2,2), strides=1, padding = 'same', input_shape = (10,10,1)))# 9,9,10
+model.add(MaxPooling2D())
 model.add(Conv2D(5,(3,3), activation='relu')) # 7,7,5
 model.add(Dropout(0.2))
 model.add(Conv2D(7,(2,2), activation='relu')) # 6,6,7 아웃  
@@ -71,5 +73,8 @@ flatten (Flatten)            (None, 252)               0
 =================================================================
 Total params: 652
 Trainable params: 652
+
+batch_size 를 높이면 속도는 빨라지지만 메모리가 부하된다
+ex) default 값인 32 -> 320 이면 메모리를 10배 쓴다!!
 
 '''
