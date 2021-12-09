@@ -20,20 +20,20 @@ import time
 from tensorflow.keras.utils import to_categorical
 y_train = to_categorical(y_train)
 y_test = to_categorical(y_test)
-
+'''
 scaler = StandardScaler()
-
-#1 데이터
-# x_train = x_train.reshape(x_train.shape[0],x_train.shape[1],x_train.shape[2],x_train.shape[3])
-# x_test = x_test.reshape(x_test.shape[0],x_test.shape[1],x_test.shape[2],x_test.shape[3])
-
 n = x_train.shape[0]# 이미지갯수 50000
 x_train_reshape = x_train.reshape(n,-1) #----> (50000,32,32,3) --> (50000, 32*32*3 ) 0~255
-x_train_transe = scaler.fit_transform(x_train_reshape) #0~255 -> 0~1
-x_train = x_train_transe.reshape(x_train.shape) #--->(50000,32,32,3) 0~1
+#x_train_transe = scaler.fit_transform(x_train_reshape) # 0 ~ 255 -> 0.0 ~ 1.0
+x_train_transe = x_train_reshape /255. #---- scale 안쓰고 scale 하기
+x_train = x_train_transe.reshape(x_train.shape) #--->(50000,32,32,3) 0.0 ~ 1.0
 
 m = x_test.shape[0]
 x_test = scaler.transform(x_test.reshape(m,-1)).reshape(x_test.shape)
+'''
+x_train = x_train/255.
+x_test = x_test/255.
+
 
 model = Sequential()
 model.add(Conv2D(64, kernel_size=(4,4),padding ='same',strides=1, input_shape = (32,32,3)))
@@ -81,9 +81,16 @@ print("loss : ",loss[0])
 print("accuracy : ",loss[1])
 
 '''
+전처리 전
 시간 :  1355.58 초
 313/313 [==============================] - 1s 3ms/step - loss: 1.5798 - accuracy: 0.3749
 loss :  1.5797550678253174
 accuracy :  0.3749000132083893
+
+전처리 후
+시간 :  4565.11 초
+313/313 [==============================] - 2s 5ms/step - loss: 0.9039 - accuracy: 0.6799
+loss :  0.9039157032966614
+accuracy :  0.6798999905586243
 '''
 

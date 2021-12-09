@@ -81,5 +81,12 @@ y_predict = model.predict(x_test)
 print("loss : ",loss[0])
 print("accuracy : ",loss[1])
 
+'''
+시간 :  5163.34 초
+313/313 [==============================] - 4s 14ms/step - loss: 2.6845 - accuracy: 0.3223
+loss :  2.6844635009765625
+accuracy :  0.322299987077713
+'''
+
 
 
