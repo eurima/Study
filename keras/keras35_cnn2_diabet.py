@@ -1,61 +1,31 @@
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
-import numpy as np
+from sklearn.metrics import r2_score
+from sklearn.datasets import load_diabetes
 import time
-
-from sklearn.datasets import load_boston
-from tensorflow.python.keras.callbacks import EarlyStopping
-from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler, MaxAbsScaler
-
-dataset = load_boston()
-
+#1.데이터
+dataset = load_diabetes()
 x = dataset.data
 y = dataset.target
-
-import pandas as pd
-xx = pd.DataFrame(x, columns=dataset.feature_names)
-
-#상관분석  (공분석)
-# Y를 넣고 상관관계 분서
-'''
-xx['price'] = y
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-plt.figure(figsize=(10,10))
-sns.heatmap(data= xx.corr(), square=True, annot=True, cbar=True)
-plt.show()
-
-#---12개로 줄이면 506,12,1,1 혹은 506,4,3,1
-#줄여서 작업해라
-'''
-x = xx.drop(['CHAS'],axis=1) #---> Df
-x = x.to_numpy()
-# print(x)
-
-from sklearn.metrics import r2_score
-
-#데이터
-
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x, y, 
-         train_size = 0.7, shuffle = True, random_state = 66) 
+         train_size = 0.8, shuffle = True, random_state = 66) 
 
-scaler = StandardScaler()
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler, MaxAbsScaler
+scaler = MinMaxScaler()
+
 
 n = x_train.shape[0]# 
 # x_train_reshape = x_train.reshape(n,-1) #----> (50000,32,32,3) --> (50000, 32*32*3 ) 0~255
 x_train_transe = scaler.fit_transform(x_train) 
-print(x_train_transe.shape) #354,13 506,12
-x_train = x_train_transe.reshape(n,2,2,3) 
+print(x_train_transe.shape) #353,10
 
+x_train = x_train_transe.reshape(n,2,5,1) 
 m = x_test.shape[0]
-x_test = scaler.transform(x_test.reshape(m,-1)).reshape(m,2,2,3)
-
-print(x_train.shape)
+x_test = scaler.transform(x_test.reshape(m,-1)).reshape(m,2,5,1)
 
 model = Sequential()
-model.add(Conv2D(128, kernel_size=(4,4),padding ='same',strides=1, input_shape = (2,2,3)))#
+model.add(Conv2D(128, kernel_size=(4,4),padding ='same',strides=1, input_shape = (2,5,1)))#
 model.add(MaxPooling2D())
 model.add(Conv2D(64,(2,2),padding ='same', activation='relu'))#<------------
 # model.add(MaxPooling2D())
@@ -103,30 +73,29 @@ r2 = r2_score(y_test,y_predict)
 print("R2 : ",r2)
 print("epochs :",epoch)
 '''
-<<dnn>>
-<<ModelCheckpoint 우수>>
-Epoch 01423: val_loss did not improve from 6.13479
-4/4 [==============================] - 0s 0s/step - loss: 5.5674
-loss :  5.567386627197266
-R2 :  0.9333908703456402
+<<기존 성과 우수>>
+MinMaxScaler
+Epoch 00059: early stopping
+시간 :  12.34 초
+3/3 [==============================] - 0s 999us/step - loss: 3194.6562
+loss :  3194.65625
+R2 :  0.5077602072769352
+Relu
+Epoch 00057: early stopping
+시간 :  12.23 초
+3/3 [==============================] - 0s 1ms/step - loss: 3255.7739
+loss :  3255.77392578125
+R2 :  0.49834307650366017
 
-<<Drop OUT>>
-Epoch 00097: val_loss did not improve from 25.87711
-4/4 [==============================] - 0s 997us/step - loss: 18.0372
-loss :  18.037235260009766
-R2 :  0.7841995627355511
+<<ModelCheckpoint>>
+Epoch 00683: val_loss did not improve from 2664.36499
+3/3 [==============================] - 0s 997us/step - loss: 3955.6995
+loss :  3955.699462890625
+R2 :  0.390497062159188
 
 <<CNN>>
-시간 :  44.89 초
-5/5 [==============================] - 0s 801us/step - loss: 9.4039
-loss :  9.403949737548828
-R2 :  0.8861742911169088
-
-Epoch 00909: val_loss did not improve from 10.08448
-시간 :  23.86 초
-5/5 [==============================] - 0s 748us/step - loss: 7.7454
-loss :  7.745367050170898
-R2 :  0.906249825286233
-
-
+시간 :  18.19 초
+3/3 [==============================] - 0s 998us/step - loss: 3936.3647
+loss :  3936.36474609375
+R2 :  0.3934760247039304
 '''
