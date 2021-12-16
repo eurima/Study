@@ -21,7 +21,7 @@ scaler = StandardScaler()
 # print(x)
 #2 모델구성
 model = Sequential()
-model.add(SimpleRNN(12,activation = 'linear', input_shape = (1,3)))
+model.add(SimpleRNN(102,activation = 'linear', input_shape = (1,3)))
 model.add(Dense(10, activation = 'relu'))
 model.add(Dense(1))
 model.summary()
