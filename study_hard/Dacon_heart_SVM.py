@@ -6,7 +6,7 @@ from sklearn.svm import SVR
 import warnings
 warnings.filterwarnings(action='ignore')
 
-# import mglearn
+# import mglearn.
 # %matplotlib inline
 
 def f1_score(answer, submission):
