@@ -3,7 +3,7 @@ import pandas as pd
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import MaxAbsScaler
 
-# 1 데이터 & 모델
+# 1 데이터 & 모델#
 samsung = pd.read_csv("삼성전자.csv", encoding='cp949', index_col=0, header=0, sep=',', thousands=',')[:880]
 kiwoom = pd.read_csv("키움증권.csv", encoding='cp949', index_col=0, header=0, sep=',', thousands=',')[:880]
 model = load_model('sodam_volume.hdf5')
