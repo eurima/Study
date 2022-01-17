@@ -8,7 +8,7 @@ from tensorflow.python.keras.callbacks import EarlyStopping
 from sklearn.metrics import r2_score
 
 samsung = pd.read_csv("삼성전자.csv", encoding='cp949', index_col = 0, header = 0, sep = ',',thousands=',')
-kiwoom = pd.read_csv("키움증권.csv", encoding='cp949', index_col = 0, header = 0, sep = ',',thousands=',')
+kiwoom = pd.read_csv("키움증권.csv", encoding='cp949', index_col = 0, header = 0, sep = ',',thousands=',')#
 
 samsung = samsung.drop(['전일비','등락률','Unnamed: 6'], axis =1)[:800]
 kiwoom = kiwoom.drop(['전일비','등락률','Unnamed: 6'], axis =1)[:800]
