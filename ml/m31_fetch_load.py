@@ -46,30 +46,30 @@ msg = f':f1_score : {round(f1_score(y_test,y_pred,average="macro"),4)} \n'
 print(msg)  
 file.write(msg)
 
-print(np.sort(model.feature_importances_))
-print('=================================')
-aaa = np.sort(model.feature_importances_)
-for thresh in aaa:
-    selection = SelectFromModel(model, threshold=thresh, prefit= True)
+# print(np.sort(model.feature_importances_))
+# print('=================================')
+# aaa = np.sort(model.feature_importances_)
+# for thresh in aaa:
+#     selection = SelectFromModel(model, threshold=thresh, prefit= True)
     
-    select_x_train = selection.transform(x_train)
-    select_x_test = selection.transform(x_test)
+#     select_x_train = selection.transform(x_train)
+#     select_x_test = selection.transform(x_test)
     
-    print(select_x_train.shape,select_x_test.shape)
+#     print(select_x_train.shape,select_x_test.shape)
     
-    selection_model = XGBRegressor(n_jobs = -1)
-    #3 훈련
-    selection_model.fit(select_x_train, y_train)
+#     selection_model = XGBRegressor(n_jobs = -1)
+#     #3 훈련
+#     selection_model.fit(select_x_train, y_train)
 
-    #4 평가 예측
-    score = selection_model.score(select_x_test, y_test)
-    select_y_pred = selection_model.predict(select_x_test)
+#     #4 평가 예측
+#     score = selection_model.score(select_x_test, y_test)
+#     select_y_pred = selection_model.predict(select_x_test)
 
-    select_r2 = r2_score(y_test, select_y_pred)
-    # print("select_Score : ", score)
-    # print("select_R2 : ", r2)
+#     select_r2 = r2_score(y_test, select_y_pred)
+#     # print("select_Score : ", score)
+#     # print("select_R2 : ", r2)
     
-    print("Thresh = %.3f, n=%d, R2 :%2f%%" %(thresh,select_x_train.shape[1],select_r2*100))    
+#     print("Thresh = %.3f, n=%d, R2 :%2f%%" %(thresh,select_x_train.shape[1],select_r2*100))    
 file.close()
 
 import joblib
